@@ -12,11 +12,14 @@ describe("Given that I am a user on login page", () => {
     test("Then It should renders Login page", () => {
       document.body.innerHTML = LoginUI();
 
+      // Ajout du FireEvent et de la bonne valeur pour expect ********
       const inputEmailUser = screen.getByTestId("employee-email-input");
-      expect(inputEmailUser.value).toBe("");
+      fireEvent.change(inputEmailUser, { target:  { value: "employee@test.tld"} })
+      expect(inputEmailUser.value).toBe("employee@test.tld");
 
       const inputPasswordUser = screen.getByTestId("employee-password-input");
-      expect(inputPasswordUser.value).toBe("");
+      fireEvent.change(inputPasswordUser, { target: { value: "employee"} })
+      expect(inputPasswordUser.value).toBe("employee");
 
       const form = screen.getByTestId("form-employee");
       const handleSubmit = jest.fn((e) => e.preventDefault());
@@ -122,11 +125,14 @@ describe("Given that I am a user on login page", () => {
     test("Then It should renders Login page", () => {
       document.body.innerHTML = LoginUI();
 
+      // Ajout du FireEvent et de la bonne valeur pour expect ********
       const inputEmailUser = screen.getByTestId("admin-email-input");
-      expect(inputEmailUser.value).toBe("");
+      fireEvent.change(inputEmailUser, { target:  { value: "admin@test.tld"} })
+      expect(inputEmailUser.value).toBe("admin@test.tld");
 
       const inputPasswordUser = screen.getByTestId("admin-password-input");
-      expect(inputPasswordUser.value).toBe("");
+      fireEvent.change(inputPasswordUser, { target:  { value: "admin"} })
+      expect(inputPasswordUser.value).toBe("admin");
 
       const form = screen.getByTestId("form-admin");
       const handleSubmit = jest.fn((e) => e.preventDefault());
