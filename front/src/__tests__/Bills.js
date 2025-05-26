@@ -128,7 +128,7 @@ describe("Given I am connected as an employee", () => {
         })
       };
     
-      const consoleErrorSpy = jest.spyOn(console, "error").mockImplementation(() => {}); // éviter d'afficher dans la console
+      const consoleErrorSpy = jest.spyOn(console, "error").mockImplementation(() => {}); 
     
       const billsContainer = new Bills({
         document,
@@ -149,7 +149,7 @@ describe("Given I am connected as an employee", () => {
         })
       };
     
-      const consoleErrorSpy = jest.spyOn(console, "error").mockImplementation(() => {}); // éviter d'afficher dans la console
+      const consoleErrorSpy = jest.spyOn(console, "error").mockImplementation(() => {}); 
     
       const billsContainer = new Bills({
         document,
