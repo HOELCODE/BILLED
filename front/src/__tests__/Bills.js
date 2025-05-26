@@ -120,5 +120,49 @@ describe("Given I am connected as an employee", () => {
       
       expect(result[0].status).toBe("En attente");
     });
+
+    test("fetching bills from API fails with 404 error message", async () => {
+      const storeMock = {
+        bills: () => ({
+          list: jest.fn().mockRejectedValueOnce(new Error("Erreur 404"))
+        })
+      };
+    
+      const consoleErrorSpy = jest.spyOn(console, "error").mockImplementation(() => {}); // éviter d'afficher dans la console
+    
+      const billsContainer = new Bills({
+        document,
+        onNavigate: jest.fn(),
+        store: storeMock,
+        localStorage: window.localStorage
+      });
+    
+      await expect(billsContainer.getBills()).rejects.toThrow("Erreur 404");
+    
+      consoleErrorSpy.mockRestore();
+    });
+
+    test("fetching bills from API fails with 500 error message", async () => {
+      const storeMock = {
+        bills: () => ({
+          list: jest.fn().mockRejectedValueOnce(new Error("Erreur 500"))
+        })
+      };
+    
+      const consoleErrorSpy = jest.spyOn(console, "error").mockImplementation(() => {}); // éviter d'afficher dans la console
+    
+      const billsContainer = new Bills({
+        document,
+        onNavigate: jest.fn(),
+        store: storeMock,
+        localStorage: window.localStorage
+      });
+    
+      await expect(billsContainer.getBills()).rejects.toThrow("Erreur 500");
+    
+      consoleErrorSpy.mockRestore();
+    });
+    
+    
   })
 })

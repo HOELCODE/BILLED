@@ -36,6 +36,7 @@ export default class {
         // On affiche les factures que si le nom et le fichier ne sont pas nuls *******
         const bills = (snapshot.filter(bill => bill.name !== null && bill.fileName !== "null"))
           .map(doc => {
+            console.log(doc.date, formatStatus(doc.status))
             try {
               return {
                 ...doc,
