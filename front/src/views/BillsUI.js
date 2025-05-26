@@ -20,13 +20,67 @@ const row = (bill) => {
   }
 
 // Ordonnee par date decroissante ********
+const monthMap = {
+  "Jan.": 1,
+  "Fév.": 2,
+  "Mar.": 3,
+  "Avr.": 4,
+  "Mai.": 5,
+  "Juin.": 6,
+  "Juil.": 7,
+  "Aoû.": 8,
+  "Sep.": 9,
+  "Oct.": 10,
+  "Nov.": 11,
+  "Déc.": 12
+};
+
+const parseDateParts = (dateStr) => {
+  const parts = dateStr.trim().split(" ");
+  // Mettre null si date icomplete
+  if (parts.length !== 3) return null;
+
+  // reformater la date
+  const [dayStr, monthLabel, yearStr] = parts;
+  const day = parseInt(dayStr, 10);
+  const month = monthMap[monthLabel];
+  const year = parseInt(yearStr, 10);
+
+  // Si l'un des éléments est invalide, retourner null
+  if (!day || !month || !year) return null;
+
+  return {
+    year: year + 2000,
+    month,
+    day
+  };
+};
+
+const customSort = (a, b) => {
+  // Convertir les dates en objets avec année, mois et jour
+  const dateA = parseDateParts(a.date);
+  const dateB = parseDateParts(b.date);
+
+  // Mettre les dates invalides à la fin
+  if (!dateA && !dateB) return 0;
+  if (!dateA) return 1;
+  if (!dateB) return -1;
+
+  // Comparer les dates par année, mois et jour pour avoir un trie parfaitement décroissant
+  if (dateA.year !== dateB.year) return dateB.year - dateA.year;
+  if (dateA.month !== dateB.month) return dateB.month - dateA.month;
+  return dateB.day - dateA.day;
+};
+
 const rows = (data) => {
-  if (!data || data.length === 0) {
-    return ""
-  }
-  data.sort((a, b) => new Date(b.date) - new Date(a.date))
-  return (data && data.length) ? data.map(bill => row(bill)).join("") : ""
-}
+  if (!data || data.length === 0) return "";
+
+  const filteredData = data.filter(bill => parseDateParts(bill.date));
+  const sortedData = filteredData.sort(customSort);
+
+  return sortedData.map(bill => row(bill)).join("");
+};
+
 
 export default ({ data: bills, loading, error }) => {
   
